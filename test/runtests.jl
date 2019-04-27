@@ -1,3 +1,5 @@
+import Pkg; Pkg.add(PackageSpec(url="https://github.com/SimonDanisch/ShaderAbstractions.jl"))
+
 using ShaderAbstractions, LinearAlgebra
 using ShaderAbstractions: VertexArray
 using Test
