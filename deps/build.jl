@@ -2,10 +2,10 @@ using Pkg
 
 @info("Adding unregistered package JSCall")
 
-Pkg.add("https://github.com/SimonDanisch/JSCall.jl")
+Pkg.add(PackageSpec(url="https://github.com/SimonDanisch/JSCall.jl"))
 
 @info("Adding unregistered package ShaderAbstraction")
 
-Pkg.add("https://github.com/SimonDanisch/ShaderAbstraction.jl")
+Pkg.add(PackageSpec(url="https://github.com/SimonDanisch/ShaderAbstraction.jl"))
 
 @info("Done building.")
