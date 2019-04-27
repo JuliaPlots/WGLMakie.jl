@@ -1,4 +1,4 @@
-import Pkg; Pkg.add(PackageSpec(url="https://github.com/SimonDanisch/ShaderAbstractions.jl"))
+import Pkg; Pkg.add(Pkg.PackageSpec(url="https://github.com/SimonDanisch/ShaderAbstractions.jl"))
 
 using ShaderAbstractions, LinearAlgebra
 using ShaderAbstractions: VertexArray
