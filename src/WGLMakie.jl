@@ -1,6 +1,6 @@
 module WGLMakie
 
-using WebSockets, JSCall, WebIO, JSExpr, GeometryTypes, Colors
+using WebSockets, JSCall, WebIO, JSExpr, GeometryTypes, Colors, AssetRegistry
 using JSExpr: jsexpr
 using AbstractPlotting, Observables
 using ShaderAbstractions, LinearAlgebra

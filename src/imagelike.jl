@@ -1,6 +1,5 @@
 
 
-
 get_dim(x::AbstractVector, ind, dim) = x[Tuple(ind)[dim]]
 get_dim(x::AbstractMatrix, ind, dim) = x[ind]
 function surface_normals(x, y, z)

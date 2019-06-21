@@ -52,6 +52,13 @@ primitive_shape(::Type{<: SimpleRectangle}) = Cint(RECTANGLE)
 primitive_shape(::Type{<: HyperRectangle{2}}) = Cint(RECTANGLE)
 primitive_shape(x::Shape) = Cint(x)
 
+
+
+function web_atlas_url()
+    path = joinpath(homedir(), "Desktop", "texture_atlas_web.png")
+    return AssetRegistry.register(path)
+end
+
 function scatter_shader(scene::Scene, attributes)
     # Potentially per instance attributes
     per_instance_keys = (:offset, :rotations, :markersize, :color, :intensity, :uv_offset_width)
@@ -77,9 +84,8 @@ function scatter_shader(scene::Scene, attributes)
         lift(primitive_shape, attributes[:marker])
     end
     if uniform_dict[:shape_type][] == 3
-        atlas = AbstractPlotting.get_texture_atlas()
-        uniform_dict[:distancefield] = Sampler(
-            atlas.data,
+        uniform_dict[:distancefield] = WebSampler(
+            web_atlas_url(),
             minfilter = :linear,
             magfilter = :linear,
             anisotropic = 16f0,

@@ -1,5 +1,16 @@
-using WGLMakie, AbstractPlotting, WebIO, JSCall
-scene = contour(rand(Float32, 4, 4, 4)) |> display
+using WGLMakie, AbstractPlotting, WebIO, JSCall, AssetRegistry
+using FileIO, Colors, ImageShow, FixedPointNumbers
+
+
+f64 = Float64.(AbstractPlotting.get_texture_atlas().data)
+mini, maxi = extrema(f64)
+g16_normed = Gray{N0f16}.((f64 .- mini) ./ (maxi - mini))
+path = joinpath(homedir(), "Desktop", "texture_atlas_web.tiff")
+save(path, rotl90(g16_normed))
+x = load(path)
+reconstr = (Float64.(red.(x)) * (maxi - mini)) .+ mini
+Float16.(reconstr) ≈ AbstractPlotting.get_texture_atlas().data
+
 jsm = WGLMakie.three_scene(scene)
 jsm.RedFormat |> JSCall.jlvalue
 open(joinpath(@__DIR__, "index.html"), "w") do io

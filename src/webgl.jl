@@ -73,6 +73,50 @@ function jl2js(jsctx, color::Sampler{T, 2}) where T
     end
 end
 
+"""
+Sampler that has it's data stored online.
+This will make it easier to create textures in Threejs from an URL,
+so that the browser & threejs can take over the caching
+"""
+struct WebSampler <: ShaderAbstractions.AbstractSampler{RGB{N0f8}, 2}
+    url::String
+    minfilter::Symbol
+    magfilter::Symbol # magnification
+    repeat::NTuple{2, Symbol}
+    anisotropic::Float32
+    color_swizzel::Vector{Symbol}
+end
+
+function WebSampler(
+        url::String;
+        minfilter = :linear,
+        magfilter = minfilter, # magnification
+        x_repeat  = :clamp_to_edge, #wrap_s
+        y_repeat  = x_repeat, #wrap_t
+        anisotropic = 1f0,
+        color_swizzel = nothing
+    ) where {T, N}
+
+    swizzel = color_swizzel !== nothing ? color_swizzel : Symbol[:RED,:_RED, :RED, :ALPHA]
+    WebSampler(
+        url, minfilter, magfilter,
+        (x_repeat, y_repeat),
+        anisotropic, swizzel,
+    )
+end
+
+
+function jl2js(jsctx, color::WebSampler)
+    tex = jsctx.THREE.new.TextureLoader().load(color.url)
+    tex.minFilter = three_filter(jsctx, color.minfilter)
+    tex.magFilter = three_filter(jsctx, color.magfilter)
+    tex.wrapS = three_repeat(jsctx, color.repeat[1])
+    tex.wrapT = three_repeat(jsctx, color.repeat[2])
+    tex.anisotropy = color.anisotropic
+    tex.needsUpdate = true
+    return tex
+end
+
 function jl2js(jsctx, color::Sampler{T, 3}) where T
     data = to_js_buffer(jsctx, color.data)
     tex = jsctx.THREE.new.DataTexture3D(

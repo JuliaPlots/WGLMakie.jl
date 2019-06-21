@@ -99,7 +99,8 @@ float scaled_distancefield(sampler2D distancefield, vec2 uv){
     // Glyph distance field units are in pixels. Convert to same distance
     // scaling as f_uv.x for consistency with the procedural signed_distance
     // calculations.
-    return frag_distancefield_scale * texture(distancefield, uv).r;
+    float c_normed = (texture(distancefield, uv).r * 1284.0) - 4.15;
+    return frag_distancefield_scale * c_normed;
 }
 
 float scaled_distancefield(bool distancefield, vec2 uv){
