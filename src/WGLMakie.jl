@@ -8,6 +8,7 @@ using ShaderAbstractions: VertexArray, Buffer, Sampler, AbstractSampler
 using ShaderAbstractions: InstancedProgram
 import GeometryBasics
 import GeometryTypes: GLNormalMesh, GLPlainMesh
+using ImageMagick
 
 struct WebGL <: ShaderAbstractions.AbstractContext end
 
@@ -143,6 +144,7 @@ end
 
 function add_scene!(jsctx, scene::Scene)
     scene_graph = _add_scene!(jsctx, scene)
+    setfield!(jsctx, :scenegraph, scene_graph)
     on_redraw(jsctx) do _
         # Fuse all calls in the event loop together!
         JSCall.fused(jsctx.THREE) do
@@ -160,13 +162,14 @@ mutable struct ThreeDisplay <: AbstractPlotting.AbstractScreen
     session_cache::Dict{UInt64, JSObject}
     scene2jsscene::Dict{Scene, Tuple{JSObject, Any}}
     redraw::Observable{Bool}
+    scenegraph::Any
     function ThreeDisplay(
             jsm::JSModule,
             renderer::JSObject,
             session_cache::Dict{UInt64, JSObject},
             scene2jsscene::Dict{Scene, Tuple{JSObject, JSObject}}
         )
-        obj = new(jsm, renderer, session_cache, scene2jsscene, Observable(false))
+        obj = new(jsm, renderer, session_cache, scene2jsscene, Observable(false), nothing)
         finalizer(obj) do obj
             # TODO we need to clean up the Javascript state
         end
@@ -308,6 +311,20 @@ function __init__()
     WebIO.push!(WebIO.renderable_types, ThreeDisplay)
     # Activate WGLMakie as backend!
     activate!()
+end
+
+
+function AbstractPlotting.colorbuffer(jsctx::ThreeDisplay)
+    data = nothing
+    JSCall.fused(jsctx.THREE) do
+        for (js_scene, (cam, update_func)) in getfield(jsctx, :scenegraph)
+            update_func()
+        end
+        data = jsctx.renderer.domElement.toDataURL()
+    end
+    blob = JSCall.jlvalue(data)
+    imb = base64decode(replace(blob, "data:image/png;base64," => ""))
+    return ImageMagick.load_(imb)
 end
 
 end # module
