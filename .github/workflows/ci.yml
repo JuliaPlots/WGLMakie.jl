@@ -21,7 +21,7 @@ jobs:
           version: ${{ matrix.julia-version }}
           
       - name: Install binary dependencies
-        run: sudo apt-get xvfb
+        run: sudo apt-get install xvfb
       
       - name: Install package dependencies
         run: julia --project=. -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate(); Pkg.pkg"add AbstractPlotting#master MakieGallery#master"'
