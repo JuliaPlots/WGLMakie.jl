@@ -26,8 +26,11 @@ jobs:
       - name: Install package dependencies
         run: julia --project=. -e 'using Pkg; Pkg.pkg"add AbstractPlotting#master MakieGallery#master; resolve; instantiate"'
       
+      - name: Instantiate framebuffer
+        run: xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
+            
       - name: Run tests
-        run: (xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1) & julia --project=. -e "using Pkg; Pkg.test()"
+        run: julia --project=. -e "using Pkg; Pkg.test()"
       
       - name: Upload recorded images
         uses: actions/upload-artifact@v1
