@@ -4,8 +4,6 @@ on: [push]
 
 jobs:
   build:
-    env:
-      DISPLAY: ':99.0'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -27,7 +25,7 @@ jobs:
         run: julia --project=. -e 'using Pkg; Pkg.pkg"add AbstractPlotting#master MakieGallery#master; resolve; instantiate"'
       
       - name: Instantiate framebuffer
-        run: xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
+        run: export DISPLAY=':99.0'; xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
             
       - name: Run tests
         run: julia --project=. -e "using Pkg; Pkg.test()"
