@@ -32,9 +32,24 @@ jobs:
         with:
           name: Recorded media
           path: ./test/test_recordings
+        if: always()
 
       - name: Upload failing images
         uses: actions/upload-artifact@v1
         with:
           name: Failed images
           path: ./test/tested_different
+        if: always()
+        
+      - name: Cache artifacts
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-artifacts
+        with:
+          path: ~/.julia/artifacts
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-test-
+            ${{ runner.os }}-
+        if: always()
