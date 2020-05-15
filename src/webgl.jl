@@ -18,10 +18,6 @@ Base.size(x::JSBuffer) = (getfield(x, :length),)
 
 JSServe.serialize_js(jso::JSBuffer) = JSServe.serialize_js(jsbuffer(jso))
 
-function JSServe.serialize_readable(io::IO, jso::JSBuffer)
-    return JSServe.serialize_readable(io, jsbuffer(jso))
-end
-
 function JSServe.serialize2string(io::IO, data_dependencies::Vector{Any}, jso::JSBuffer)
     return JSServe.serialize2string(io, data_dependencies, jsbuffer(jso))
 end
@@ -29,6 +25,7 @@ end
 function Base.setindex!(x::JSBuffer{T}, value::T, index::Int) where T
     setindex!(x, [value], index:(index+1))
 end
+
 function Base.getindex(x::JSBuffer, idx::Int)
     # jlvalue(jsbuffer(x))[idx]
 end

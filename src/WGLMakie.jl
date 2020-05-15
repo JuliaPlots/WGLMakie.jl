@@ -158,22 +158,22 @@ function add_scene!(three, scene::Scene)
                 $(renderer).render(scene, camera);
             }
         }
+
         function render_scene(scene){
-            var camera = scene.getObjectByName("camera");
+            const camera = scene.getObjectByName("camera");
             if(camera){
                 render_camera(scene, camera);
             }
-            for(var i = 0; i < scene.children.length; i++){
+            for(let i = 0; i < scene.children.length; i++){
                 var child = scene.children[i];
                 render_scene(child);
             }
         }
-        function render_all(){
+        function render_all(val){
             render_scene($(js_scene));
-            // Schedule the next frame.
-            requestAnimationFrame(render_all);
         }
-        requestAnimationFrame(render_all);
+        render_all(null);
+        // on_update_observables_callbacks.push(render_all);
     """)
 end
 
