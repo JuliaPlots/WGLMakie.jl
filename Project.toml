@@ -28,8 +28,8 @@ ImageMagick = "1.1"
 JSServe = "1.2"
 Observables = "0.3"
 ShaderAbstractions = "0.2.1"
-StaticArrays = "0.12, 1.0.2"
-julia = "1.5, 1.6"
+StaticArrays = "0.12, 1.0"
+julia = "1.4, 1.5, 1.6"
 
 [extras]
 ElectronDisplay = "d872a56f-244b-5cc9-b574-2017b5b909a8"
