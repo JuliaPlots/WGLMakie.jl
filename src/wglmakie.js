@@ -632,7 +632,7 @@ const WGLMakie = (function () {
         renderer.setClearColor("#ffffff");
         renderer.setPixelRatio(window.devicePixelRatio);
         
-        renderer.setSize(window.innerWidth, window.innerHeight + 20);
+        renderer.setSize(window.innerWidth, 1.1*window.innerHeight);
         
         function mousemove(event) {
             var rect = canvas.getBoundingClientRect();
