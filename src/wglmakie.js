@@ -631,7 +631,7 @@ const WGLMakie = (function () {
 
         renderer.setClearColor("#ffffff");
 
-        var pixelRatio = window.devicePixelRatio
+        var pixelRatio = window.devicePixelRatio;
         renderer.setPixelRatio(pixelRatio);
         renderer.setSize(canvas.width / pixelRatio, canvas.height / pixelRatio);
 
