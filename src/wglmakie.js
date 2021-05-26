@@ -93,7 +93,7 @@ const WGLMakie = (function () {
             cam3d.near,
             cam3d.far
         );
-	
+
         const center = new THREE.Vector3(...cam3d.lookat);
         camera.up = new THREE.Vector3(...cam3d.upvector);
         camera.position.set(...cam3d.eyeposition);
@@ -632,7 +632,7 @@ const WGLMakie = (function () {
         renderer.setClearColor("#ffffff");
         renderer.setPixelRatio(window.devicePixelRatio);
         
-        renderer.setSize(window.innerWidth, 1.1*window.innerHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight);
         
         function mousemove(event) {
             var rect = canvas.getBoundingClientRect();
