@@ -630,10 +630,11 @@ const WGLMakie = (function () {
         });
 
         renderer.setClearColor("#ffffff");
-        renderer.setPixelRatio(window.devicePixelRatio);
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        
+
+        var pixelRatio = window.devicePixelRatio
+        renderer.setPixelRatio(pixelRatio);
+        renderer.setSize(canvas.width / pixelRatio, canvas.height / pixelRatio);
+
         function mousemove(event) {
             var rect = canvas.getBoundingClientRect();
             var x = event.clientX - rect.left;
