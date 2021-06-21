@@ -1,3 +1,9 @@
+> ⚠️ **INFO: This repository is deprecated**
+> 
+> WGLMakie has been moved into the monorepo at [Makie.jl](https://github.com/JuliaPlots/Makie.jl).
+> The latest version can be determined by checking the Project.toml in the WGLMakie subdirectory.
+
+
 ![CI](https://github.com/JuliaPlots/WGLMakie.jl/workflows/CI/badge.svg)
 [![Codecov](https://codecov.io/gh/JuliaPlots/WGLMakie.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaPlots/WGLMakie.jl)
 
